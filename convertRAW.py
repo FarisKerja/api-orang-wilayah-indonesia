@@ -25,10 +25,10 @@ def rabbitLoop(locationfolder, source, value, parent, codename, id):
             for item in parser:
                 if(item[setparent]) == id:
                     with open(settarget, 'a', newline='') as setchild:
-                        setchild.write(item['full_code'] + "," + str(value) + "," + ((item['type'] + " ") if setname == "regencies" else "") + item['name'] + "\n")
+                        setchild.write(str(item['id']) + "," + str(value) + "," + ((item['type'] + " ") if setname == "regencies" else "") + item['name'] + "\n")
                         if(setname != 'villages'):
                             #print(locationfolder, setname, item['full_code'], item[setparent], item['name'], item['id'])
-                            rabbitLoop(locationfolder, setname, item['full_code'], item[setparent], item['name'], item['id'])
+                            rabbitLoop(locationfolder, setname, item['id'], item[setparent], item['name'], item['id'])
         # if(source != 'provinces' and source != 'villages'):
         #     print(locationfolder, source, value, parent, codename, id)
         #     with open(source,'a',newline='') as setwrite:
@@ -43,7 +43,8 @@ with open(seturl, 'r') as file:
     
     # Iterate over the JSON objects
     for item in parser:
+        print("proses data provinsi " + item['name'])
         # Process each JSON object as needed
         with open(target,'a',newline='') as setwrite:
-            setwrite.write(item['code'] + "," + item['name'] + "\n")
-            rabbitLoop(currentLocation, "provinces", item['code'], None, None, item['id'])
+            setwrite.write(str(item['id']) + "," + item['name'] + "\n")
+            rabbitLoop(currentLocation, "provinces", item['id'], None, None, item['id'])
